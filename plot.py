@@ -8,12 +8,12 @@ np.histogram2d(x = x[:,0].squeeze(), y = x[:,1].squeeze())
 """
 
 
-gen_data = np.load("tissue_data_jack_gen_output/gen_output/generator_output.npy").squeeze(axis=2)
+#gen_data = np.load("tissue_data_jack_gen_output/gen_output/generator_output.npy").squeeze(axis=2)
 
 
 
 
-t_data = np.load("tissue_data_jack_normalized.npy")
+#t_data = np.load("tissue_data_jack_normalized.npy")
 
 
 
