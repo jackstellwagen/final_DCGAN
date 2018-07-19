@@ -1,0 +1,18 @@
+from final_GAN import DCGAN
+from histogram import compare
+
+#data should be formatted so each row is one sample
+data = np.load("
+training_steps = 1000
+
+def GAN_runner(data):
+     GAN = DCGAN(data)
+     GAN.build_model()
+     GAN.train(training_steps)
+
+def histogram_runner():
+    
+
+
+def main():
+   
