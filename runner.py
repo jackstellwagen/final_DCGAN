@@ -24,12 +24,11 @@ data = gen_data()
 #data should be formatted so each row is one sample
 #data = np.load("
 data = np.load("/home/jack/caltech_research/tissue_data_jack_GAN/tissue_data_jack/tissue_data_jack_normalized.npy")
-training_steps = 10000
+training_steps = 1000
 
 def GAN_runner(data, retrain=False):
      GAN = DCGAN(data)
      GAN.build_model()
-     print("y")
      GAN.train(training_steps, retrain)
 
 def GAN_sampler(num_samples):
@@ -63,7 +62,7 @@ def histogram_runner(data):
     print(sum(l)/len(l), "Average Real\n")
 
 
-def plot_runner(data)
+def plot_runner(data):
      fake = GAN_sampler(data.shape[0])
      plot(fake,data)
 
