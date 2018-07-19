@@ -209,7 +209,9 @@ class DCGAN(object):
 
     def train(self,num_steps,continue_training = False):
         init = tf.global_variables_initializer()
-
+        d_loss = np.zeros(shape=(1000))
+        g_loss = np.zeros(shape=(1000))
+        j = 0
         saver = tf.train.Saver()
         s = time.time()
         with tf.Session() as sess:
@@ -231,6 +233,10 @@ class DCGAN(object):
                 if i % 100 == 0 or i == 1:
                     print('Step %i: Generator Loss: %f, Discriminator Loss: %f' % (i, gl, dl))
                     print("DLR:",dlr,",", "DLF:", dlf)
+                if int(i%(num_steps/1000)) == 0:
+                    d_loss[j] = dl
+                    g_loss[j] = gl
+                    j+=1
             save_path = saver.save(sess, "trained_network/trained.ckpt")
             time_taken = time.time()-s
             sample = np.random.randint(self.n_samp, size=self.batch_size)
@@ -240,6 +246,8 @@ class DCGAN(object):
             z = np.random.normal(0, 0.5, size=[100, self.vector_dim])
             samp  = sess.run(self.gen_sample, feed_dict={self.random_vector: z, self.isTrain:False})
             np.save("gen_output/generator_output.npy", samp)
+            np.save("gen_output/g_loss.npy", g_loss)
+            np.save("gen_output/d_loss.npy", d_loss)
 
     def sampler(self, size):
         with tf.Session() as sess:
