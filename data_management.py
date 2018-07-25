@@ -1,7 +1,7 @@
 import numpy as np
 import scipy.io
 from sklearn.decomposition import PCA
-
+from sklearn import preprocessing
 
 #data =  scipy.io.mmread("")
 
@@ -18,8 +18,10 @@ def data_format(data):
     data = format(data)
     return normalize(data)
 
+
+
 def pca_func(data, desired_dimensions):
-    data = data.transpose()
+    data = preprocessing.scale(data).transpose()
     pca = PCA(n_components = desired_dimensions)
     pca.fit(data)
     return pca.transform(data).transpose(), pca
