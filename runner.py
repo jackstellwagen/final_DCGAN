@@ -2,6 +2,8 @@ from plot import plot
 from GAN_master import DCGAN
 from histogram import compare
 import numpy as np
+import scipy.io
+from data_management import data_format, pca_func
 
 
 def noise_array():
@@ -23,8 +25,16 @@ data = gen_data()
 
 #data should be formatted so each row is one sample
 #data = np.load("
-data = np.load("/home/jack/caltech_research/tissue_data_jack_GAN/tissue_data_jack/tissue_data_jack_normalized.npy")
-training_steps = 1000
+#data = np.load("/home/jack/caltech_research/tissue_data_jack_GAN/tissue_data_jack/tissue_data_jack_normalized.npy")
+
+
+data = scipy.io.mmread("/home/jack/caltech_research/tissue_data/droplet/Marrow-10X_P7_3/matrix.mtx")
+
+data = data_format(data)
+data, pca = pca_func(data, 28)
+
+print(data.shape, "data shape")
+training_steps = 100
 
 def GAN_runner(data, retrain=False):
      GAN = DCGAN(data)
@@ -38,6 +48,10 @@ def GAN_sampler(num_samples):
 
 def histogram_runner(data):
     np.random.shuffle(data)
+    if data.shape[0] % 2 !=0:
+          #print(data.shape, "init")
+          data = data[:-1]
+          #print(data.shape, "jsjsjsj")
     data1, data2 = np.split(data,2)
     fake = GAN_sampler(data.shape[0]).squeeze(axis=2)
     np.random.shuffle(fake)    
@@ -63,13 +77,16 @@ def histogram_runner(data):
 
 
 def plot_runner(data):
-     fake = GAN_sampler(data.shape[0])
+     print(data.shape, "plot data")
+     fake = GAN_sampler(data.shape[0]).squeeze(axis=2)
+     print(fake.shape, "fake plot data")
      plot(fake,data)
 
 #histogram_runner(data)
 def main():
    GAN_runner(data)
-   histogram_runner(data)
+   #histogram_runner(data)
+   plot_runner(data)
    
 if __name__ == "__main__":
     main()
