@@ -6,7 +6,7 @@ from sklearn import preprocessing
 #data =  scipy.io.mmread("")
 
 
-def format(data):
+def format_func(data):
     data = data.toarray()
     return data.transpose()
 
@@ -15,7 +15,7 @@ def normalize(data):
     return (data/data.max() *2)-1
 
 def data_format(data):
-    data = format(data)
+    data = format_func(data)
     return normalize(data)
 
 
@@ -23,5 +23,5 @@ def data_format(data):
 def pca_func(data, desired_dimensions):
     data = preprocessing.scale(data).transpose()
     pca = PCA(n_components = desired_dimensions)
-    pca.fit(data)
-    return pca.transform(data).transpose(), pca
+    #pca.fit(data)
+    return pca.fit_transform(data).transpose(), pca
